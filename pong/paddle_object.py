@@ -20,24 +20,10 @@ class paddle(object):
 	#  
 	# 	keys = pygame.key.get_pressed()
 
-	# 	if self.player == 'one':
-	# 		if keys[pygame.K_UP]:
-	# 			#fill in code
-	# 			pass
-	# 		if keys[pygame.K_DOWN]:
-	# 			#fill in code
-	# 			pass
 
 
-	# 	if self.player == 'two':
-	# 		if keys[pygame.K_w]:
-	# 			#fill in code
-	# 			pass
-	# 		if keys[pygame.K_s]:
-	# 			#fill in code
-	# 			pass
-
-		
+	#Need to implement a draw function. Pygame has a built in draw rectanle function that could be helpful
+	
 	# def update(self):
 
 

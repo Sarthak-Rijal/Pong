@@ -67,6 +67,7 @@ def play():
 
 		
 		screen.fill((0,0,0))
+		
 		#draw stripes
 		for i in range(HEIGHT):
 			if i%25 == 0:
