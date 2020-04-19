@@ -6,36 +6,39 @@ HEIGHT = 600
 
 class paddle(object):
 
-	def __init__(self,screen,x,y,length,width,player,speed):
-		self.length = length
-		self.width = width
-		self.x = x
-		self.y = y
-		self.player = player
-		self.screen = screen
-		self.speed = speed
+#constructor that defiens a paddle bject
 
+#	def __init__(self):
 		
 
-	def move(self):
-		keys = pygame.key.get_pressed()
+		
+# Defines how the paddle moves. 
+	# def move(self):
 
-		if self.player == 'one':
-			if keys[pygame.K_UP]:
-				if self.y>=0:
-					self.y -= self.speed
-			if keys[pygame.K_DOWN]:
-				if self.y+self.length<=HEIGHT:
-					self.y += self.speed
-		if self.player == 'two':
-			if keys[pygame.K_w]:
-				if self.y>=0:
-					self.y -= self.speed
-			if keys[pygame.K_s]:
-				if self.y+self.length<=HEIGHT:
-					self.y += self.speed
+	# 	#this is the event listner. It listens to any input on the keyboard, mouse etc. 
+	# 	#to specify a an event do: keys["Type of event"]. Look up pygame "pygame.key.get_pressed() documentation" for more information
+	#  
+	# 	keys = pygame.key.get_pressed()
 
-		pygame.draw.rect(self.screen,(255,255,255),[self.x,self.y,self.width,self.length])
+	# 	if self.player == 'one':
+	# 		if keys[pygame.K_UP]:
+	# 			#fill in code
+	# 			pass
+	# 		if keys[pygame.K_DOWN]:
+	# 			#fill in code
+	# 			pass
+
+
+	# 	if self.player == 'two':
+	# 		if keys[pygame.K_w]:
+	# 			#fill in code
+	# 			pass
+	# 		if keys[pygame.K_s]:
+	# 			#fill in code
+	# 			pass
+
+		
+	# def update(self):
 
 
 		
