@@ -16,12 +16,16 @@ FPS = 60
 
 bounce = False
 
-#audio
+#audio 
 one_sound = pygame.mixer.Sound("sound/one.wav")
 two_sound = pygame.mixer.Sound("sound/two.wav")
 
 one_score = pygame.mixer.Sound("sound/one_score.wav")
 two_score = pygame.mixer.Sound("sound/two_score.wav")
+
+#sounds are alreay initilized. To play a sound simply do:
+
+#  variable.play()
 
 
 #Prints the desired "msg" (A string) of (int) "size" with int color as a rgb value (0-255,0-255,0-255) 
@@ -60,6 +64,8 @@ def play():
 	
 	#event
 	while True:
+		
+
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				pygame.quit()
@@ -67,7 +73,7 @@ def play():
 
 		
 		screen.fill((0,0,0))
-		
+
 		#draw stripes
 		for i in range(HEIGHT):
 			if i%25 == 0:
