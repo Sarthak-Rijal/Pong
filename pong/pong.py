@@ -1,9 +1,13 @@
 import pygame,sys
+from ball import *
+
 pygame.init()
 
 
 WIDTH = 1000
 HEIGHT = 600
+
+WHITE = (255,255,255)
 
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
 
@@ -60,12 +64,13 @@ def win(player):
 
 #skeleton code to fill in. This is the main loop where everything runs. 
 
+Ball = Ball(5,5, 25, 0, 0, WHITE)
+
 def play():
 	
 	#event
 	while True:
 		
-
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				pygame.quit()
@@ -78,11 +83,8 @@ def play():
 		for i in range(HEIGHT):
 			if i%25 == 0:
 				pygame.draw.rect(screen,(255,255,255),(WIDTH/2-2,i,4,10))
-	
 
-
-
-
+		Ball._update(screen)
 
 		clock.tick(FPS)
 		pygame.display.update()

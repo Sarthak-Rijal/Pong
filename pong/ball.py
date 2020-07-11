@@ -1,4 +1,5 @@
 import pygame
+import math
 
 pygame.init()
 
@@ -7,15 +8,52 @@ WIDTH = 1000
 HEIGHT = 600
 
 
+
 class Ball(object):
-	
-#constructor
-#	def __init__():
-		
-	
-#move function defines how the ball will move
-#	def move(self):
-		
+    
+    
+    def __init__(self, velocityX, velocityY, size, angle, speed, color):
+        
+        self._posX = WIDTH/2 - size/2
+        self._posY = HEIGHT/2 - size/2
+
+        self._velocityX = velocityX
+        self._velocityY = velocityY
+        self._angle = angle
+        self._speed = speed
+        self._size = size
+        self._color = color
+
+        self._rect = pygame.Rect((self._posX, self._posY),(self._size, self._size))
+    
+    
+    def _update(self, surface):
+        print (self._posX, self._posY, self._velocityX)
+        self._collide()
+
+        self._posX +=  self._velocityX
+        self._posY +=  self._velocityY
+
+        pygame.draw.rect(surface, self._color, [self._posX, self._posY, self._size, self._size])
+
+    def _collide(self):
+        
+        if (self._posX + self._size > WIDTH or self._posX < 0):
+            
+            self._velocityX = -self._velocityX
+            print ("Collide")
+        
+        if (self._posY + self._size > HEIGHT or self._posY < 0):
+            self._velocityY = -self._velocityY
+
+            print ("Collide")
+        
+
+
+
+
+
+
 
 #bounce function will tell how the ball will bounce	
 #	def bounce(self):
