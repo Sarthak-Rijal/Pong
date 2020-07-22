@@ -1,5 +1,6 @@
 import pygame,sys
 from ball import *
+from paddle_object import *
 
 pygame.init()
 
@@ -53,19 +54,10 @@ def win(player):
         pygame.time.wait(300)
     play()
 
-#Implement this to reset the game after one player has scored. 
+Ball = Ball(screen, 5, 5, 25, WHITE)
+WALL = Paddle(screen, HEIGHT, 25, "one", WHITE, 5, "train")
 
-
-#def reset(x,bool): 
-	
-
-	
-
-
-#skeleton code to fill in. This is the main loop where everything runs. 
-
-Ball = Ball(5,5, 25, 0, 0, WHITE)
-
+Traning = Paddle(screen, 150, 25, "two", WHITE, 5)
 def play():
 	
 	#event
@@ -84,7 +76,9 @@ def play():
 			if i%25 == 0:
 				pygame.draw.rect(screen,(255,255,255),(WIDTH/2-2,i,4,10))
 
-		Ball._update(screen)
+		Ball._update()
+		WALL._update(Ball)
+		Traning._update(Ball)
 
 		clock.tick(FPS)
 		pygame.display.update()

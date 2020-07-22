@@ -1,35 +1,119 @@
 import pygame
+import numpy as np
+from ball import *
+from NN import * 
 pygame.init()
 
 WIDTH = 1000
 HEIGHT = 600
 
-class paddle(object):
+MAXANGLE = math.pi/4
+MAXSPEED = 15
+
+def prepare_features(ball_dx, ball_dy, y_ball, y_paddle):
+	return np.array([ball_dy/MAXSPEED, ball_dx/MAXSPEED, (y_ball-y_paddle)/HEIGHT, y_paddle/HEIGHT])
+
+class Paddle(object):
 
 #constructor that defiens a paddle bject
 
-#	def __init__(self):
+	def __init__(self, screen, length ,width, player, color, speed, mode = "default"):
+		
+		self._player = player
+
+		if (self._player == "one"):
+			self._posX = 950
+			self._posY = HEIGHT / 2 - length/2
+		else:
+			self._posX = 25
+			self._posY = HEIGHT / 2 - length/2
+		
+		self._screen = screen
+		
+		self._length = length
+		self._width = width
+		self._color = color
+		self._player = player
+		self._speed = speed
+		self._mode = mode
+		self._nn = NN(4, 4)
+
+		#need to make this so that the gene sequence determines these weights
+		#	-how to map genes to weights?
+		#  
+		#initially random weights and biases
+		self.A = np.random.rand(4,4) * 2 -1
+		self.bias1 = np.random.rand(4, 1) * 2 - 1
+		self.C = np.random.rand(1,4) * 2 - 1
+		self.bias2 = np.random.rand(1, 1) * 2 - 1
+
+		self.config = {'one': {'w': pygame.K_i, 's': pygame.K_k}, 'two': {'w':pygame.K_w, 's':pygame.K_s }}
+
+		self._rect = pygame.Rect((self._posX, self._posY),(self._width, self._length))
+
+
+	def _update(self, ball):
+
+		if (self._player == "one"):
+			self.move_kb()
+		else:
+			self.move_ai(ball)
+		
+		self._collide(ball)
+
+		self._rect = pygame.Rect((self._posX, self._posY),(self._width, self._length))
+		pygame.draw.rect(self._screen, self._color, (self._posX, self._posY, self._width, self._length))
 		
 
-		
-# Defines how the paddle moves. 
-	# def move(self):
+	def _move_down(self,):
 
-	# 	#this is the event listner. It listens to any input on the keyboard, mouse etc. 
-	# 	#to specify a an event do: keys["Type of event"]. Look up pygame "pygame.key.get_pressed() documentation" for more information
-	#  
-	# 	keys = pygame.key.get_pressed()
+		if self._posY+self._length<=HEIGHT:
+			self._posY += self._speed
 
 
+	def _move_up(self):
 
-	#Need to implement a draw function. Pygame has a built in draw rectanle function that could be helpful
-	
-	# def update(self):
+		if self._posY >= 0:
+			self._posY -= self._speed
 
+	def _collide(self, ball):
 
-		
-
-
-		
-		
+		if (ball._rect.colliderect(self._rect)):
 			
+			if (self._mode == "train"):
+				normalY = normalY = random.random()*2-1
+			else:
+				relativeY = -ball._posY - ball._size/2 + self._posY + self._length/2
+				normalY = relativeY/(self._length/2)
+
+			
+
+			theta = MAXANGLE * normalY
+
+			ball.bounce(theta, MAXSPEED, self._player)
+			
+
+	def move_kb(self):
+
+		keys = pygame.key.get_pressed()
+
+		if keys[self.config[self._player]['w']]:
+			self._move_up()
+		elif keys[self.config[self._player]['s']]:
+			self._move_down()
+
+	#basic format of the move AI
+	#def prepare_features(ball_dx, ball_dy, y_ball, y_paddle):
+    #return np.array([ball_dy/MAXSPEED, ball_dx/MAXSPEED, (y_ball-y_paddle)/HEIGHT, y_paddle/HEIGHT])
+	def move_ai(self, ball):
+
+		input = prepare_features(ball._velocityX, ball._velocityY, ball._posY, self._posY)
+		#inputs = np.matrix([[ball._velocityX/MAXSPEED], [ball._velocityX/MAXSPEED],[(ball._posY - self._posY)/self._length],[self._posY/self._length]])
+		
+
+		print(input)		
+		decision = self._nn.neuralNetwork(self.A, self.bias1, self.C, self.bias2, input)
+		if decision > 0.1:
+			self._move_up()
+		elif decision < -0.1:
+			self._move_down()
