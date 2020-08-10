@@ -17,15 +17,19 @@ class Ball(object):
         
         self._screen = screen
 
+        #initila position of the balls
         self._posX = WIDTH/2 - size/2
         self._posY = HEIGHT/2 - size/2
 
+        #x and y component of velocity
         self._velocityX = velocityX
         self._velocityY = velocityY
     
+        
         self._size = size
         self._color = color
 
+        #a rectangle object that helps with collision
         self._rect = pygame.Rect((self._posX, self._posY),(self._size, self._size))
     
     
@@ -41,7 +45,8 @@ class Ball(object):
 
 
     def bounce(self, angle, speed, player):
-        #self._velocityX = - math.cos(angle) * speed
+        #this if else handels the direction of the bounce
+        #the bounce is broken into x and y velocity components
         if (player == "one"):
             self._velocityX = -math.cos(angle)* speed
             self._velocityY = -math.sin(angle)* speed
@@ -52,7 +57,7 @@ class Ball(object):
 
 
     def _collide(self):
-
+        #collision is handeled
         if (self._posX + self._size > WIDTH or self._posX < 0):
             self._velocityX = -self._velocityX
         
@@ -60,12 +65,6 @@ class Ball(object):
             self._velocityY = -self._velocityY
 
         
-
-    def collide(self,other):
-        return other.colliderect(pygame.Rect(self.x,self.y,self.size,self.size))
-        
-
-
 
 
 
