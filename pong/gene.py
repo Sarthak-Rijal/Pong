@@ -12,7 +12,7 @@ hidden_size = 4
 # sequence will result in a solution for the NN. 
 class gene(object):
 
-    def __init__(self, inputNum, hiddenNum, outputNum, info_bit = 8, alleal = None):
+    def __init__(self, inputNum, hiddenNum, outputNum, info_bit = 8, allele = None):
         
         self.info_bit = info_bit
 
@@ -21,10 +21,8 @@ class gene(object):
         self.hiddenNNnode = hiddenNum
         self.outputNNnode = outputNum
 
-        self.allele = allele
-
         #instantiate the DNA
-        if (self.allele == None):
+        if (allele == None):
             #number of weights and biases
             weight1 = self.inputNNnode * self.hiddenNNnode 
             bias1 = self.hiddenNNnode
@@ -32,32 +30,42 @@ class gene(object):
             weight2 = self.outputNNnode * self.outputNNnode
             bias2 = self.outputNNnode
 
-            weightNbias = weight1 + bias1 + weight2 + bias2
+            weight_bias = weight1 + bias1 + weight2 + bias2
 
             self.allele = []
 
-            for i in range(info_bit * weightNbias):
+            for i in range(info_bit * weight_bias):
                 self.allele.append(random.randint(0,1))
             
     #default 5% chance to mutate
     def mutate(self, chance = 0.05):
+        temp = []
 
-        for i in len(self.allele):
+        for i in self.allele:l,.olkimjimikjkik9ik8i8uiiolp . 
             if (random.random() < chance):
-                if (self.allele[i] == 0):
-                    self.allele[i] = 1
+                Dvif (i == 0):
+                    temp.append(1)
                 else:
-                    self.allele[i] = 0
+                    temp.append(0)
+            else:
+                temp.append(i)
+
+        self.allele = temp
 
 
     #breeds two DNA's together
     def corssover(self, other):
         child = []
         
-        for i in len(self.allele):
+        for i in self.allele:
             if (random.random() < 0.5):
-                child.append(self.allele[i])
+                child.append(i)
             else:
-                child.append(other[i])
+                child.append(other.allele[i])
 
         return child
+
+    #test method
+    def get_allele(self):
+
+        print(self.allele)
